@@ -35,4 +35,12 @@ public class ExceptionHandlerController {
         error.put("erro", erro.getMessage());
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(AlunoNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleNotFound(AlunoNotFoundException erro){
+        Map<String, String> error = new HashMap<>();
+
+        error.put("erro", erro.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
 }

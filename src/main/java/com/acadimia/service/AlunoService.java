@@ -1,17 +1,20 @@
 package com.acadimia.service;
 
 import com.acadimia.Repository.AlunoRepository;
+import com.acadimia.exception.AlunoNotFoundException;
 import com.acadimia.exception.CpfJaCadastradoException;
 import com.acadimia.model.Aluno;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class AlunoService {
     @Autowired
     private AlunoRepository alunoRepository;
@@ -29,7 +32,7 @@ public class AlunoService {
 
     public Aluno atualizar(Long id, Aluno aluno){
         Aluno alunoExist = alunoRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
+            .orElseThrow(() -> new AlunoNotFoundException(id));
 
         alunoExist.setNome(aluno.getNome());
         alunoExist.setCpf(aluno.getCpf());
@@ -42,7 +45,7 @@ public class AlunoService {
 
     public Aluno buscarAluno (Long id){
         return alunoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
+                .orElseThrow(() -> new AlunoNotFoundException(id));
     }
 
     public void deletar(Long id){
