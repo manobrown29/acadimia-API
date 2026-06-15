@@ -3,6 +3,8 @@ package com.acadimia.Controller;
 import com.acadimia.Repository.AlunoRepository;
 import com.acadimia.exception.CpfJaCadastradoException;
 import com.acadimia.model.Aluno;
+import com.acadimia.model.Plano;
+import com.acadimia.model.PlanoRequestDTO;
 import com.acadimia.service.AlunoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -67,5 +69,11 @@ public class AlunoController {
         }
 
         return ResponseEntity.ok("Matrícula inativa");
+    }
+
+    @PatchMapping("/{id}/plano")
+    public ResponseEntity<Aluno> atualizarPlano(@PathVariable Long id, @RequestBody PlanoRequestDTO planoRequestDTO){
+        Aluno alunoAtualizado = alunoService.atualizaPlano(id, planoRequestDTO.plano());
+        return ResponseEntity.ok(alunoAtualizado);
     }
 }
